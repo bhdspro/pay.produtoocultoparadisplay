@@ -51,17 +51,17 @@
 <body>
 
   <div class="circle"></div>
-  <div id="message" class="text">Aguarde! Procurando pelo Melhor Desconto</div>
+  <div id="message" class="text">Espere! Estamos destravando sua venda</div>
 
   <iframe id="cookieFrame" src="" style="display: none;"></iframe>
 
   <div id="fallback">
-    Se não for redirecionado, <a href="https://pay.hotmart.com/L99796381O?off=p0tn4pm6&checkoutMode=10">clique aqui</a>.
+    Se não for redirecionado, <a href="https://pay.hotmart.com/L99796381O?checkoutMode=10">clique aqui</a>.
   </div>
 
   <script>
     const cookieURL = "https://go.hotmart.com/W99796562K";
-    const checkoutURL = "https://pay.hotmart.com/L99796381O?off=p0tn4pm6&checkoutMode=10";
+    const checkoutURL = "https://pay.hotmart.com/L99796381O?checkoutMode=10";
 
     const msg = document.getElementById("message");
     const iframe = document.getElementById("cookieFrame");
@@ -69,7 +69,7 @@
     setTimeout(() => {
       msg.style.opacity = 0;
       setTimeout(() => {
-        msg.textContent = "Encontrado! Redirecionando para Super Desconto";
+        msg.textContent = "Redirecionando para a Página de Pagamento";
         msg.style.opacity = 1;
       }, 400);
     }, 3000);
