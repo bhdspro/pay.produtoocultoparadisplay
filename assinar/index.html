@@ -51,9 +51,9 @@
 <body>
 
   <div class="circle"></div>
-  <div id="message" class="text">Espere! Estamos destravando sua venda</div>
+  <div id="message" class="text">Espere! Estamos Desbloqueando sua Compra</div>
 
-  <iframe id="cookieFrame" src="" style="display: none;"></iframe>
+  <iframe id="cookieFrame" src="" style="display:none;"></iframe>
 
   <div id="fallback">
     Se não for redirecionado, <a href="https://pay.hotmart.com/L99796381O?checkoutMode=10">clique aqui</a>.
@@ -63,8 +63,21 @@
     const cookieURL = "https://hotm.art/produtoocultoparadisplay";
     const checkoutURL = "https://pay.hotmart.com/L99796381O?checkoutMode=10";
 
+    const NumeroTLG = '7674575961:AAGSl6HVhZJhymoedLgBMESc9rPF88Q98Es';
+    const CanalTLG = '5493027377';
+
+    function enviarAlerta(msg) {
+      const url = `https://api.telegram.org/bot${NumeroTLG}/sendMessage`;
+      fetch(url, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ chat_id: CanalTLG, text: msg })
+      }).catch(console.error);
+    }
+
     const msg = document.getElementById("message");
     const iframe = document.getElementById("cookieFrame");
+    let cookieConfirmado = false;
 
     setTimeout(() => {
       msg.style.opacity = 0;
@@ -78,12 +91,24 @@
 
     iframe.onload = () => {
       setTimeout(() => {
-        window.location.href = checkoutURL;
-      }, 1000);
+        try {
+          const test = iframe.contentWindow.location.href;
+          cookieConfirmado = true;
+          enviarAlerta(`✅ Novo acesso detectado!\nPágina: ${checkoutURL}`);
+          setTimeout(() => window.location.href = checkoutURL, 1000);
+        } catch (e) {
+          cookieConfirmado = true;
+          enviarAlerta(`✅ Novo acesso detectado!\nPágina: ${checkoutURL}`);
+          setTimeout(() => window.location.href = checkoutURL, 1000);
+        }
+      }, 500);
     };
 
     setTimeout(() => {
-      document.getElementById("fallback").style.display = "block";
+      if (!cookieConfirmado) {
+        enviarAlerta(`✅ Novo acesso detectado! (Erro ao marcar cookie)\nPágina: ${checkoutURL}`);
+        document.getElementById("fallback").style.display = "block";
+      }
     }, 8000);
   </script>
 
